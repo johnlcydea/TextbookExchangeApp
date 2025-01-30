@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "26793699863",
+    "project_id": "textbookexchangeapp",
+    "storage_bucket": "textbookexchangeapp.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:26793699863:android:6b31ba5a6e760a65e48a52",
+        "android_client_info": {
+          "package_name": "com.example.textbookexchangeapp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD6O-b3knu0m4T1wxf5luXEti0dhGNar7U"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
