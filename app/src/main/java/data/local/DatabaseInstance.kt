@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.room.Room
 
 object DatabaseInstance {
+
     @Volatile
     private var instance: AppDatabase? = null
 
@@ -12,8 +13,10 @@ object DatabaseInstance {
             val newInstance = Room.databaseBuilder(
                 context.applicationContext,
                 AppDatabase::class.java,
-                "app_database"
-            ).build()
+                "textbook_exchange_db" // ✅ Use a consistent database name
+            )
+                .fallbackToDestructiveMigration() // ✅ Prevent crashes if schema changes
+                .build()
             instance = newInstance
             newInstance
         }

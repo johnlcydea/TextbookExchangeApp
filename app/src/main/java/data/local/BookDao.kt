@@ -1,15 +1,23 @@
 package com.example.textbookexchangeapp.data.local
 
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
-import androidx.room.Query
+import androidx.room.*
+import kotlinx.coroutines.flow.Flow
 
-@Dao  // ✅ This is required
+@Dao
 interface BookDao {
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertBook(book: Book)
 
-    @Query("SELECT * FROM books")
-    fun getAllBooks(): List<Book>
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertBook(book: Book): Long
+
+    @Update
+    suspend fun updateBook(book: Book): Int
+
+    @Delete
+    suspend fun deleteBook(book: Book): Int
+
+    @Query("SELECT * FROM books WHERE id = :bookId LIMIT 1")
+    fun getBookById(bookId: Int): Flow<Book>
+
+    @Query("SELECT * FROM books ORDER BY title ASC")
+    fun getAllBooks(): Flow<List<Book>>
 }

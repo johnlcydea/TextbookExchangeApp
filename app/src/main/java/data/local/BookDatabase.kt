@@ -1,26 +1,26 @@
 package com.example.textbookexchangeapp.data.local
 
+import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
-import android.content.Context
 
 @Database(entities = [Book::class], version = 1, exportSchema = false)
-abstract class AppDatabase : RoomDatabase() {
+abstract class BookDatabase : RoomDatabase() {
+
     abstract fun bookDao(): BookDao
 
     companion object {
         @Volatile
-        private var INSTANCE: AppDatabase? = null
+        private var INSTANCE: BookDatabase? = null
 
-        fun getDatabase(context: Context): AppDatabase {
+        fun getDatabase(context: Context): BookDatabase {
             return INSTANCE ?: synchronized(this) {
                 val instance = Room.databaseBuilder(
                     context.applicationContext,
-                    AppDatabase::class.java,
-                    "textbook_exchange_db"
-                ).fallbackToDestructiveMigration() // ✅ Ensures database is created correctly
-                    .build()
+                    BookDatabase::class.java,
+                    "book_database"
+                ).build()
                 INSTANCE = instance
                 instance
             }
