@@ -1,24 +1,31 @@
 package com.example.textbookexchangeapp.data.local
 
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.asLiveData
 import kotlinx.coroutines.flow.Flow
 
 class BookRepository(private val bookDao: BookDao) {
 
-    val allBooks: Flow<List<Book>> = bookDao.getAllBooks()
+    // ✅ Convert Flow to LiveData using `asLiveData()`
+    val allBooks: LiveData<List<Book>> = bookDao.getAllBooks().asLiveData()
 
-    suspend fun insert(book: Book) {
+    suspend fun insertBook(book: Book) {
         bookDao.insertBook(book)
     }
 
-    suspend fun update(book: Book) {
+    suspend fun updateBook(book: Book) {
         bookDao.updateBook(book)
     }
 
-    suspend fun delete(book: Book) {
+    suspend fun deleteBook(book: Book) {
         bookDao.deleteBook(book)
     }
 
-    fun getBookById(id: Int): Flow<Book> {
-        return bookDao.getBookById(id)
+    fun getBookById(id: Int): LiveData<Book?> {
+        return bookDao.getBookById(id).asLiveData()  // ✅ Convert to LiveData
+    }
+
+    fun getBooksByCategory(categoryId: Int): LiveData<List<Book>> {
+        return bookDao.getBooksByCategory(categoryId).asLiveData()  // ✅ Convert to LiveData
     }
 }

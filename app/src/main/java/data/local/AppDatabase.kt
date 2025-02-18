@@ -1,11 +1,15 @@
 package com.example.textbookexchangeapp.data.local
 
+import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
-import android.content.Context
 
-@Database(entities = [Book::class], version = 1, exportSchema = false)
+@Database(
+    entities = [Book::class],
+    version = 2,
+    exportSchema = true
+)
 abstract class AppDatabase : RoomDatabase() {
     abstract fun bookDao(): BookDao
 
@@ -18,8 +22,9 @@ abstract class AppDatabase : RoomDatabase() {
                 val instance = Room.databaseBuilder(
                     context.applicationContext,
                     AppDatabase::class.java,
-                    "textbook_exchange_db"
-                ).fallbackToDestructiveMigration() // ✅ Ensures database is created correctly
+                    "book_database"
+                )
+                    .fallbackToDestructiveMigration()
                     .build()
                 INSTANCE = instance
                 instance

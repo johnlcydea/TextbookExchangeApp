@@ -1,52 +1,64 @@
-package com.example.textbookexchangeapp.ui
+package com.example.textbookexchangeapp.navigation
 
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import com.example.textbookexchangeapp.Screen
+import androidx.navigation.navArgument
+import com.example.textbookexchangeapp.ui.screens.*
 import com.example.textbookexchangeapp.data.local.BookViewModel
-import com.example.textbookexchangeapp.LoginScreen
-import com.example.textbookexchangeapp.DashboardScreen
-import com.example.textbookexchangeapp.ui.AddBookScreen
-import com.example.textbookexchangeapp.ui.BookListScreen
+
+sealed class Screen(val route: String) {
+    object Login : Screen("login")
+    object Dashboard : Screen("dashboard")
+    object AddBook : Screen("addBook")
+    object BookList : Screen("bookList")
+    object EditBook : Screen("editBook/{bookId}") {
+        fun createRoute(bookId: Int) = "editBook/$bookId"
+    }
+}
 
 @Composable
-fun AppNavigation(navController: NavHostController, viewModel: BookViewModel) {
+fun AppNavigation(
+    navController: NavHostController,
+    viewModel: BookViewModel
+) {
     NavHost(
         navController = navController,
         startDestination = Screen.Login.route
     ) {
         composable(Screen.Login.route) {
-            LoginScreen(
-                onLoginSuccess = {
-                    navController.navigate(Screen.Dashboard.route) {
-                        popUpTo(Screen.Login.route) { inclusive = true }
-                    }
-                }
-            )
+            LoginScreen(navController)
         }
 
         composable(Screen.Dashboard.route) {
-            DashboardScreen(
-                viewModel = viewModel,
-                onLogout = {
-                    navController.navigate(Screen.Login.route) {
-                        popUpTo(Screen.Dashboard.route) { inclusive = true }
-                    }
-                }
-            )
+            DashboardScreen(navController, viewModel)
         }
 
         composable(Screen.AddBook.route) {
-            AddBookScreen(
-                viewModel = viewModel,
-                onBookAdded = { navController.navigateUp() }
-            )
+            AddBookScreen(navController, viewModel)
         }
 
         composable(Screen.BookList.route) {
-            BookListScreen(viewModel = viewModel)
+            BookListScreen(navController, viewModel)
+        }
+
+        // Add EditBook screen with bookId parameter
+        composable(
+            route = Screen.EditBook.route,
+            arguments = listOf(
+                navArgument("bookId") {
+                    type = NavType.IntType
+                }
+            )
+        ) { backStackEntry ->
+            val bookId = backStackEntry.arguments?.getInt("bookId") ?: return@composable
+            EditBookScreen(
+                navController = navController,
+                viewModel = viewModel,
+                bookId = bookId
+            )
         }
     }
 }
