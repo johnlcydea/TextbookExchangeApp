@@ -1,3 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">TextbookExchangeApp</string>
+    <string name="app_name">Textbook Exchange App</string>
+    <string name="welcome_message">Welcome to the Textbook Exchange App!</string>
+    <string name="email_label">Email</string>
+    <string name="password_label">Password</string>
+    <string name="login_button_text">Login</string>
+    <string name="empty_fields_error">Fields cannot be empty</string>
+    <string name="invalid_credentials_error">Invalid email or password</string>
+    <string name="dashboard_title">Dashboard</string>
+    <string name="logout">Logout</string>
+    <string name="welcome_dashboard">Welcome to the Dashboard!</string>
+    <string name="add_new_book">Add New Book</string>
+    <string name="view_books">View Books</string>
+    <string name="profile">Profile</string>
+    <string name="confirm_logout">Confirm Logout</string>
+    <string name="logout_confirmation">Are you sure you want to logout?</string>
+    <string name="cancel">Cancel</string>
+    <string name="book_list_title">Book List</string>
+    <string name="no_books_message">No books available</string>
+    <string name="price_format">$%.2f</string>
+    <string name="author_format">By %s</string>
+    <string name="add_book_title">Add New Book</string>
+    <string name="title_label">Title</string>
+    <string name="author_label">Author</string>
+    <string name="price_label">Price</string>
+    <string name="add_book_button">Add Book</string>
+    <string name="title_required">Title is required</string>
+    <string name="invalid_price">Please enter a valid price</string>
+    <string name="no_books_available">No books available</string>
+    <string name="book_added_successfully">Book added successfully!</string>
+    <string name="dismiss">Dismiss</string>
+    <string name="save_changes">Save Changes</string>
+    <string name="edit_book_title">Edit Book</string>
+    <string name="delete">Delete</string>
+    <string name="back_to_dashboard">Back to Dashboard</string>
+    <string name="unknown_author">Unknown</string>
+    <string name="edit_book">Edit Book</string>
+    <string name="delete_book">Delete Book</string>
+    <string name="confirm_delete_title">Delete Book</string>
+    <string name="confirm_delete_message">Are you sure you want to delete this book?</string>
 </resources>

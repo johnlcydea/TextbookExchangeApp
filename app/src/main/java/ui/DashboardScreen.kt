@@ -1,4 +1,4 @@
-package com.example.textbookexchangeapp.ui
+package com.example.textbookexchangeapp.ui.screens
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -6,48 +6,29 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
+import com.example.textbookexchangeapp.R
 import com.example.textbookexchangeapp.data.local.BookViewModel
+import com.example.textbookexchangeapp.navigation.Screen
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun DashboardScreen(viewModel: BookViewModel, onLogout: () -> Unit) {
-    var currentScreen by remember { mutableStateOf("dashboard") }
-
-    when (currentScreen) {
-        "dashboard" -> DashboardView(
-            onAddBook = { currentScreen = "add_book" },
-            onViewBooks = { currentScreen = "view_books" },
-            onLogout = onLogout
-        )
-        "add_book" -> AddBookScreen(
-            viewModel = viewModel,
-            onBookAdded = { currentScreen = "dashboard" }
-        )
-        "view_books" -> BookListScreen(viewModel = viewModel)
-    }
-}
-
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-fun DashboardView(
-    onAddBook: () -> Unit,
-    onViewBooks: () -> Unit,
-    onLogout: () -> Unit
+fun DashboardScreen(
+    navController: NavController,
+    viewModel: BookViewModel
 ) {
-    var showLogoutDialog by remember { mutableStateOf(false) }
-
     Scaffold(
-        modifier = Modifier.fillMaxSize(),
         topBar = {
             CenterAlignedTopAppBar(
-                title = { Text("Dashboard") },
+                title = { Text(text = stringResource(id = R.string.dashboard_title)) },
                 actions = {
                     Text(
-                        text = "Logout",
+                        text = stringResource(id = R.string.logout),
                         modifier = Modifier
                             .padding(16.dp)
-                            .clickable { showLogoutDialog = true },
+                            .clickable { navController.navigate(Screen.Login.route) },
                         color = MaterialTheme.colorScheme.primary
                     )
                 }
@@ -62,61 +43,21 @@ fun DashboardView(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Text(
-                text = "Welcome to the Dashboard!",
+                text = stringResource(id = R.string.welcome_dashboard),
                 style = MaterialTheme.typography.headlineMedium
             )
 
             Spacer(modifier = Modifier.height(20.dp))
 
-            Button(
-                onClick = onAddBook,
-                modifier = Modifier.fillMaxWidth(0.8f)
-            ) {
-                Text("Add New Book")
+            Button(onClick = { navController.navigate(Screen.AddBook.route) }) {
+                Text(stringResource(id = R.string.add_new_book))
             }
 
             Spacer(modifier = Modifier.height(10.dp))
 
-            Button(
-                onClick = onViewBooks,
-                modifier = Modifier.fillMaxWidth(0.8f)
-            ) {
-                Text("View Books")
+            Button(onClick = { navController.navigate(Screen.BookList.route) }) {
+                Text(stringResource(id = R.string.view_books))
             }
-
-            Spacer(modifier = Modifier.height(10.dp))
-
-            Button(
-                onClick = { /* TODO: Implement Profile Feature */ },
-                modifier = Modifier.fillMaxWidth(0.8f)
-            ) {
-                Text("Profile")
-            }
-        }
-
-        if (showLogoutDialog) {
-            AlertDialog(
-                onDismissRequest = { showLogoutDialog = false },
-                title = { Text("Confirm Logout") },
-                text = { Text("Are you sure you want to logout?") },
-                confirmButton = {
-                    TextButton(
-                        onClick = {
-                            showLogoutDialog = false
-                            onLogout()
-                        }
-                    ) {
-                        Text("Logout")
-                    }
-                },
-                dismissButton = {
-                    TextButton(
-                        onClick = { showLogoutDialog = false }
-                    ) {
-                        Text("Cancel")
-                    }
-                }
-            )
         }
     }
 }
