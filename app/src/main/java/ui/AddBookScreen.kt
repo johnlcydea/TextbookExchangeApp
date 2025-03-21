@@ -22,6 +22,7 @@ data class AddBookState(
     val title: String = "",
     val author: String = "",
     val price: String = "",
+    val category: String = "General",  // Added category field with default value
     val errorMessage: String = ""
 )
 
@@ -84,7 +85,7 @@ fun AddBookScreen(
                                     title = state.title,
                                     author = state.author.takeIf { it.isNotBlank() },
                                     price = state.price.toDoubleOrNull() ?: 0.0,
-                                    categoryId = 1
+                                    category = state.category  // Use category instead of categoryId
                                 )
                             )
 
@@ -132,6 +133,14 @@ private fun BookInputFields(
         onValueChange = { onStateChange(state.copy(price = it)) },
         label = { Text(stringResource(R.string.price_label)) },
         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal),
+        modifier = Modifier.fillMaxWidth()
+    )
+
+    // Add category input field
+    OutlinedTextField(
+        value = state.category,
+        onValueChange = { onStateChange(state.copy(category = it)) },
+        label = { Text("Category") },  // You might want to add this to your string resources
         modifier = Modifier.fillMaxWidth()
     )
 }

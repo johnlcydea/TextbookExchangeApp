@@ -7,9 +7,19 @@ import kotlinx.coroutines.launch
 
 class BookViewModel(private val repository: BookRepository) : ViewModel() {
 
-    // ✅ Using LiveData instead of Flow
+    // 🔹 LiveData Sources
     val allBooks: LiveData<List<Book>> = repository.allBooks
+    val remoteBooks: LiveData<List<Book>> = repository.remoteBooks
+    val firestoreBooks: LiveData<List<Book>> = repository.firestoreBooks
 
+    // 🔹 API Functions
+    fun fetchBooksFromApi() {
+        viewModelScope.launch {
+            repository.fetchBooksFromApi()
+        }
+    }
+
+    // 🔹 CRUD Operations that sync with all data sources
     fun insertBook(book: Book) {
         viewModelScope.launch {
             repository.insertBook(book)
@@ -28,11 +38,32 @@ class BookViewModel(private val repository: BookRepository) : ViewModel() {
         }
     }
 
-    fun getBookById(id: Int): LiveData<Book?> {
-        return repository.getBookById(id)  // ✅ Now returns LiveData
+    // 🔹 Direct Firestore Operations
+    fun addBookToFirestore(book: Book) {
+        viewModelScope.launch {
+            repository.addBookToFirestore(book)
+        }
     }
 
-    fun getBooksByCategory(categoryId: Int): LiveData<List<Book>> {
-        return repository.getBooksByCategory(categoryId)  // ✅ Now returns LiveData
+    fun updateBookInFirestore(book: Book) {
+        viewModelScope.launch {
+            repository.updateBookInFirestore(book)
+        }
+    }
+
+    // Updated to use Book object instead of just the ID
+    fun deleteBookFromFirestore(book: Book) {
+        viewModelScope.launch {
+            repository.deleteBookFromFirestore(book)
+        }
+    }
+
+    // 🔹 Query Operations
+    fun getBookById(id: Int): LiveData<Book?> {
+        return repository.getBookById(id)
+    }
+
+    fun getBooksByCategory(category: String): LiveData<List<Book>> {
+        return repository.getBooksByCategory(category)
     }
 }
